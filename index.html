@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
+    <title>MinaTime</title>
+    <style>
+        body {
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10rem;
+        }
+
+        #center {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            height: 30rem;
+            background-color: rgb(31, 30, 38);
+            border-radius: 25px;
+            overflow: auto;
+        }
+
+        #inner {
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5rem;
+        }
+
+        .datetimepicker {
+            display: flex;
+
+            input {
+                &[type=date] {
+                    width: 10rem;
+                    padding: .25rem 0 .25rem .5rem;
+                    border-right-width: 0;
+                }
+
+                &[type=time] {
+                    width: 5.5rem;
+                    padding: .25rem .5rem .25rem 0;
+                    border-left-width: 0;
+                }
+            }
+        }
+
+        .submit {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+
+            input {
+                padding: 0.5rem 2rem 0.5rem 2rem;
+            }
+        }
+
+        .result {
+            display: flex;
+            justify-content: center;
+            margin-top: 6rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="center">
+        <div id="inner">
+            <div class="datetimepicker">
+                <input type="date" id="date"> 
+                <input type="time" id="time">
+            </div>
+            <div class="submit">
+                <input id="submit" type="button" value="Convert to Minaowa Time">
+            </div>
+        </div>
+        <div class="result">
+            <h1 id="result"></h1>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("submit").addEventListener("click", (e) => {
+            const date = document.getElementById("date").value
+            const time = document.getElementById("time").value
+            const datetime = new Date(date + " " + time)
+            const minatime = Math.random() * (5 - 1) + 1;
+
+            datetime.setHours(datetime.getHours() + minatime)
+            
+            const result = document.getElementById("result")
+            result.innerText = datetime.toLocaleString()
+        })
+    </script>
+</body>
+
+</html>
