@@ -62,6 +62,17 @@
             justify-content: center;
             margin-top: 6rem;
         }
+
+        .result-discord {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        #result-discord:hover {
+            cursor: pointer;
+            background-color: darkgray;
+        }
     </style>
 </head>
 
@@ -79,19 +90,43 @@
         <div class="result">
             <h1 id="result"></h1>
         </div>
+        <div class="result-discord">
+            <span id="result-discord"></span>
+        </div>
     </div>
 
     <script>
         document.getElementById("submit").addEventListener("click", (e) => {
+            // First we get the set datetime
             const date = document.getElementById("date").value
             const time = document.getElementById("time").value
             const datetime = new Date(date + " " + time)
-            const minatime = Math.random() * (5 - 1) + 1;
 
-            datetime.setHours(datetime.getHours() + minatime)
+            // There is a chance for mina to dalay stream for a few days
+            const delayFirstDay = Math.random() < 0.3
+            const delaySecondDay = delayFirstDay ? Math.random() < 0.2 : false
+            const delayThirdDay = delaySecondDay ? Math.random() < 0.1 : false
+
+            const day = 24 * 60 * 60 * 1000
+
+            // Mina is late 0 - 5 hours
+            let minatime = 5 * Math.random() * 60 * 60 * 1000
+            minatime += delayFirstDay ? day : 0
+            minatime += delaySecondDay ? day : 0
+            minatime += delayThirdDay ? day : 0
+
+            const realtime = new Date(datetime.getTime() + minatime)
             
             const result = document.getElementById("result")
-            result.innerText = datetime.toLocaleString()
+            result.innerText = realtime.toLocaleString()
+
+            const result_discord = document.getElementById("result-discord")
+            const timestamp = Math.round(realtime.getTime() / 1000)
+            result_discord.innerText = "Mina Time Converter: `" + date + " " + time + "` converts to <t:" + timestamp + ":f> Realtime"
+        })
+
+        document.getElementById("result-discord").addEventListener("click", (e) => {
+            navigator.clipboard.writeText(e.target.innerText)
         })
     </script>
 </body>
